@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GemTD</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="controls">
+        <h1 class="round">Round: <span class="round__number"></span></h1>
+        <button class="controls__btn build">build</button>
+        <button class="controls__btn remove">remove</button>
+
+        <div class="show-area">
+          <div class="selected-item"></div>
+          <div class="description"></div>
+        </div>
+
+        <button class="controls__btn select" hidden>select</button>
+        <button class="controls__btn downgrade" hidden>downgrade</button>
+        <button class="controls__btn combine" hidden>combine</button>
+        <button class="controls__btn combine2" hidden>combine 2</button>
+        <button class="controls__btn special" hidden>special</button>
+      </div>
+    </div>
+    <script src="js/pathfinding/pathfinding-browser.min.js"></script>
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,629 @@
+{
+  "board": {
+    "rows": 37,
+    "cols": 37,
+    "size": 24
+  },
+
+  "waypoints": [
+    {
+      "x": 4,
+      "y": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 4,
+      "y": 18,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 32,
+      "y": 18,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 32,
+      "y": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 18,
+      "y": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 18,
+      "y": 32,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "x": 32,
+      "y": 32,
+      "width": 1,
+      "height": 1
+    }
+  ],
+
+  "startFinish": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 9,
+      "height": 9
+    },
+    {
+      "x": 28,
+      "y": 28,
+      "width": 9,
+      "height": 9
+    }
+  ],
+
+  "roads": [
+    {
+      "x": 4,
+      "y": 4,
+      "width": 1,
+      "height": 15
+    },
+    {
+      "x": 4,
+      "y": 18,
+      "width": 29,
+      "height": 1
+    },
+    {
+      "x": 32,
+      "y": 4,
+      "width": 1,
+      "height": 15
+    },
+    {
+      "x": 18,
+      "y": 4,
+      "width": 15,
+      "height": 1
+    },
+    {
+      "x": 18,
+      "y": 4,
+      "width": 1,
+      "height": 29
+    },
+    {
+      "x": 18,
+      "y": 32,
+      "width": 15,
+      "height": 1
+    }
+  ],
+
+  "rock": {
+    "x": 0,
+    "y": 280,
+    "src": "images/rock.svg"
+  },
+
+  "gems": {
+    "b": {
+      "1": {
+        "name": "chipped sapphire",
+        "x": 0,
+        "y": 0,
+        "range": 4,
+        "damage": 2,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed sapphire",
+        "x": 0,
+        "y": 20,
+        "range": 4,
+        "damage": 4,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal sapphire",
+        "x": 0,
+        "y": 40,
+        "range": 4,
+        "damage": 6,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless sapphire",
+        "x": 0,
+        "y": 60,
+        "range": 4,
+        "damage": 8,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect sapphire",
+        "x": 0,
+        "y": 80,
+        "range": 4,
+        "damage": 10,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge sapphire",
+        "x": 0,
+        "y": 100,
+        "range": 4,
+        "damage": 36,
+        "attackSpeed": 283,
+        "ability": ""
+      }
+    },
+    "d": {
+      "1": {
+        "name": "chipped diamond",
+        "x": 20,
+        "y": 0,
+        "range": 3.33,
+        "damage": 5,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed diamond",
+        "x": 20,
+        "y": 20,
+        "range": 3.33,
+        "damage": 10,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal diamond",
+        "x": 20,
+        "y": 40,
+        "range": 3.33,
+        "damage": 20,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless diamond",
+        "x": 20,
+        "y": 60,
+        "range": 3.33,
+        "damage": 40,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect diamond",
+        "x": 20,
+        "y": 80,
+        "range": 3.33,
+        "damage": 80,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge diamond",
+        "x": 20,
+        "y": 100,
+        "range": 3.33,
+        "damage": 460,
+        "attackSpeed": 283,
+        "ability": ""
+      }
+    },
+    "e": {
+      "1": {
+        "name": "chipped opal",
+        "x": 40,
+        "y": 0,
+        "range": 3.33,
+        "damage": 1,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed opal",
+        "x": 40,
+        "y": 20,
+        "range": 3.33,
+        "damage": 2,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal opal",
+        "x": 40,
+        "y": 40,
+        "range": 3.33,
+        "damage": 3,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless opal",
+        "x": 40,
+        "y": 60,
+        "range": 3.33,
+        "damage": 4,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect opal",
+        "x": 40,
+        "y": 80,
+        "range": 3.33,
+        "damage": 5,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge opal",
+        "x": 40,
+        "y": 100,
+        "range": 3.33,
+        "damage": 6,
+        "attackSpeed": 170,
+        "ability": ""
+      }
+    },
+    "g": {
+      "1": {
+        "name": "chipped emerald",
+        "x": 60,
+        "y": 0,
+        "range": 3.33,
+        "damage": 2,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed emerald",
+        "x": 60,
+        "y": 20,
+        "range": 3.33,
+        "damage": 4,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal emerald",
+        "x": 60,
+        "y": 40,
+        "range": 3.33,
+        "damage": 6,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless emerald",
+        "x": 60,
+        "y": 60,
+        "range": 3.33,
+        "damage": 8,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect emerald",
+        "x": 60,
+        "y": 80,
+        "range": 3.33,
+        "damage": 10,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge emerald",
+        "x": 60,
+        "y": 100,
+        "range": 3.33,
+        "damage": 12,
+        "attackSpeed": 170,
+        "ability": ""
+      }
+    },
+    "p": {
+      "1": {
+        "name": "chipped amethyst",
+        "x": 80,
+        "y": 0,
+        "range": 3.33,
+        "damage": 2,
+        "attackSpeed": 283,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed amethyst",
+        "x": 80,
+        "y": 20,
+        "range": 3.33,
+        "damage": 4,
+        "attackSpeed": 283,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal amethyst",
+        "x": 80,
+        "y": 40,
+        "range": 3.33,
+        "damage": 6,
+        "attackSpeed": 283,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless amethyst",
+        "x": 80,
+        "y": 60,
+        "range": 3.33,
+        "damage": 8,
+        "attackSpeed": 283,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect amethyst",
+        "x": 80,
+        "y": 80,
+        "range": 3.33,
+        "damage": 10,
+        "attackSpeed": 283,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge amethyst",
+        "x": 80,
+        "y": 100,
+        "range": 3.33,
+        "damage": 70,
+        "attackSpeed": 283,
+        "ability": ""
+      }
+    },
+    "q": {
+      "1": {
+        "name": "chipped aquamarine",
+        "x": 100,
+        "y": 0,
+        "range": 2.67,
+        "damage": 2,
+        "attackSpeed": 567,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed aquamarine",
+        "x": 100,
+        "y": 20,
+        "range": 2.67,
+        "damage": 4,
+        "attackSpeed": 567,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal aquamarine",
+        "x": 100,
+        "y": 40,
+        "range": 2.67,
+        "damage": 8,
+        "attackSpeed": 567,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless aquamarine",
+        "x": 100,
+        "y": 60,
+        "range": 2.67,
+        "damage": 16,
+        "attackSpeed": 567,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect aquamarine",
+        "x": 100,
+        "y": 80,
+        "range": 2.67,
+        "damage": 24,
+        "attackSpeed": 567,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge aquamarine",
+        "x": 100,
+        "y": 100,
+        "range": 3.33,
+        "damage": 80,
+        "attackSpeed": 1337,
+        "ability": ""
+      }
+    },
+    "r": {
+      "1": {
+        "name": "chipped ruby",
+        "x": 120,
+        "y": 0,
+        "range": 3.33,
+        "damage": 4,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed ruby",
+        "x": 120,
+        "y": 20,
+        "range": 3.33,
+        "damage": 8,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal ruby",
+        "x": 120,
+        "y": 40,
+        "range": 3.33,
+        "damage": 12,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless ruby",
+        "x": 120,
+        "y": 60,
+        "range": 3.33,
+        "damage": 24,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect ruby",
+        "x": 120,
+        "y": 80,
+        "range": 3.33,
+        "damage": 48,
+        "attackSpeed": 170,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge ruby",
+        "x": 120,
+        "y": 100,
+        "range": 3.33,
+        "damage": 150,
+        "attackSpeed": 170,
+        "ability": ""
+      }
+    },
+    "y": {
+      "1": {
+        "name": "chipped topaz",
+        "x": 140,
+        "y": 0,
+        "range": 4,
+        "damage": 3,
+        "attackSpeed": 131,
+        "ability": ""
+      },
+      "2": {
+        "name": "flawed topaz",
+        "x": 140,
+        "y": 20,
+        "range": 3.33,
+        "damage": 6,
+        "attackSpeed": 131,
+        "ability": ""
+      },
+      "3": {
+        "name": "normal topaz",
+        "x": 140,
+        "y": 40,
+        "range": 3.33,
+        "damage": 9,
+        "attackSpeed": 131,
+        "ability": ""
+      },
+      "4": {
+        "name": "flawless topaz",
+        "x": 140,
+        "y": 60,
+        "range": 3.33,
+        "damage": 18,
+        "attackSpeed": 131,
+        "ability": ""
+      },
+      "5": {
+        "name": "perfect topaz",
+        "x": 140,
+        "y": 80,
+        "range": 3.33,
+        "damage": 36,
+        "attackSpeed": 131,
+        "ability": ""
+      },
+      "6": {
+        "name": "huge topaz",
+        "x": 140,
+        "y": 100,
+        "range": 33.33,
+        "damage": 200,
+        "attackSpeed": 283,
+        "ability": ""
+      }
+    }
+  },
+
+  "towers": {
+    "silver": {
+      "name": "silver",
+      "x": 0,
+      "y": 120,
+      "range": 4,
+      "damage": 25,
+      "attackSpeed": 170,
+      "ability": "",
+      "combination": ["b1", "d1", "y1"]
+    },
+    "silverKnight": {
+      "name": "silver knight",
+      "x": 20,
+      "y": 120,
+      "range": 4.67,
+      "damage": 60,
+      "attackSpeed": 213,
+      "ability": "",
+      "combination": ["silver", "q2", "r3"]
+    }
+  },
+
+  "chances": {
+    "1": {
+      "1": 1,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "4": {
+      "1": 0.8,
+      "2": 1,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "11": {
+      "1": 0.6,
+      "2": 0.9,
+      "3": 1,
+      "4": 0,
+      "5": 0
+    },
+    "15": {
+      "1": 0.4,
+      "2": 0.7,
+      "3": 0.9,
+      "4": 1,
+      "5": 0
+    },
+    "20": {
+      "1": 0.1,
+      "2": 0.4,
+      "3": 0.7,
+      "4": 0.9,
+      "5": 1
+    }
+  },
+
+  "enemies": {
+    "x": 0,
+    "y": 360
+  }
+}
