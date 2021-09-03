@@ -4,8 +4,8 @@ export default class Tower extends Sprite {
   constructor(props = {}) {
     super(props);
 
-    this.gemType = props.gemType ?? null;
-    this.gemRank = props.gemRank ?? null;
+    this.type = props.type ?? null;
+    this.rank = props.rank ?? null;
     this.range = props.range ?? 0;
     this.damage = props.damage ?? 0;
     this.attackSpeed = props.attackSpeed ?? 0;

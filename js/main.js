@@ -193,6 +193,7 @@ export default async function main() {
       gemRank: randRank,
       damage: atlas.gems[randGem][randRank].damage,
       ability: atlas.gems[randGem][randRank].ability,
+      attackSpeed: atlas.gems[randGem][randRank].attackSpeed,
       new: true,
     });
 
@@ -351,6 +352,8 @@ export default async function main() {
       console.log(paths);
       roadmap(paths);
     }
+
+    fireBullet();
   }
 
   function createEnemies() {
@@ -424,6 +427,37 @@ export default async function main() {
         }
       }
     };
+  }
+
+  function fireBullet() {
+    for (const items in maze) {
+      if (Object.hasOwnProperty.call(maze, items)) {
+        const item = maze[items];
+        if (item.gemType != "rock") {
+          setInterval(() => {
+            const bullet = new Sprite({
+              image: images,
+              frame: {
+                x: atlas.bullet.x,
+                y: atlas.bullet.y,
+                width: 20,
+                height: 20,
+              },
+              x: item.x,
+              y: item.y,
+              width: item.width,
+              height: item.height,
+              speedX: 5,
+              speedY: 2,
+            });
+            game.stage.add(bullet);
+            console.log(item.attackSpeed);
+          }, (item.attackSpeed / 170) * 1000);
+          // game.update = () => {
+          // };
+        }
+      }
+    }
   }
 
   function deleteEnemy(enemy) {

@@ -106,8 +106,12 @@
 
   "rock": {
     "x": 0,
-    "y": 280,
-    "src": "images/rock.svg"
+    "y": 280
+  },
+
+  "bullet": {
+    "x": 20,
+    "y": 280
   },
 
   "gems": {

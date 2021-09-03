@@ -345,6 +345,11 @@
       stroke-linejoin="round" />
   </g>
 
+  <g id="bullet" transform="matrix(1 0 0 1 20 280)">
+    <ellipse rx="3" ry="3" transform="matrix(1 0 0 1 10 10)" fill="rgb(230,230,0)" stroke="rgb(255,255,100)"
+      stroke-width="1" />
+  </g>
+
   <g id="spider" transform="matrix(1 0 0 1 0 360)">
     <ellipse rx="4" ry="5" transform="matrix(1 0 0 1 10 8)" fill="rgb(108,108,108)" stroke="rgb(0,0,0)"
       stroke-width="0.5" />
