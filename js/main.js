@@ -357,7 +357,7 @@ export default async function main() {
   }
 
   function createEnemies() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1; i++) {
       const newEnemy = new Sprite({
         image: images,
         frame: {
@@ -434,27 +434,49 @@ export default async function main() {
       if (Object.hasOwnProperty.call(maze, items)) {
         const item = maze[items];
         if (item.gemType != "rock") {
-          setInterval(() => {
-            const bullet = new Sprite({
-              image: images,
-              frame: {
-                x: atlas.bullet.x,
-                y: atlas.bullet.y,
-                width: 20,
-                height: 20,
-              },
-              x: item.x,
-              y: item.y,
-              width: item.width,
-              height: item.height,
-              speedX: 5,
-              speedY: 2,
-            });
-            game.stage.add(bullet);
-            console.log(item.attackSpeed);
-          }, (item.attackSpeed / 170) * 1000);
-          // game.update = () => {
-          // };
+          enemies.forEach((enemy) => {
+            const interval = setInterval(() => {
+              const bullet = new Sprite({
+                image: images,
+                frame: {
+                  x: atlas.bullet.x,
+                  y: atlas.bullet.y,
+                  width: 20,
+                  height: 20,
+                },
+                x: item.x,
+                y: item.y,
+                width: item.width,
+                height: item.height,
+                speedX: 5,
+                speedY: 2,
+              });
+
+              game.stage.add(bullet);
+
+              game.ctx.beginPath();
+              game.ctx.arc(
+                (2 * item.x + item.width) / 2,
+                (2 * item.y + item.height) / 2,
+                item.range,
+                0,
+                2 * Math.PI
+              );
+              while (
+                game.ctx.isPointInPath(enemy.x, enemy.y) ||
+                game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+                game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+                game.ctx.isPointInPath(
+                  enemy.x + enemy.width,
+                  enemy.y + enemy.height
+                )
+              ) {
+                // console.log("fire");
+              }
+
+              console.log(item.range);
+            }, (170 / item.attackSpeed) * 1000);
+          });
         }
       }
     }
