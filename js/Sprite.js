@@ -4,19 +4,11 @@ export default class Sprite extends DisplayObject {
   constructor(props = {}) {
     super(props);
 
+    this.name = props.name ?? "";
     this.image = props.image ?? null;
     this.frame = props.frame ?? null;
 
     this.selected = props.selected ?? false;
-
-    this.gemType = props.gemType ?? null;
-    this.gemRank = props.gemRank ?? null;
-    this.range = props.range ?? 0;
-    this.damage = props.damage ?? 0;
-    this.attackSpeed = props.attackSpeed ?? 0;
-    this.ability = props.ability ?? null;
-
-    this.new = props.new ?? false;
 
     this.speedX = props.speedX ?? 0;
     this.speedY = props.speedY ?? 0;
@@ -61,14 +53,18 @@ export default class Sprite extends DisplayObject {
   }
 
   set(obj) {
+    this.name = obj.name;
+
     this.frame.x = obj.x;
     this.frame.y = obj.y;
 
     this.range = obj.range * this.width ?? 0;
     this.damage = obj.damage ?? 0;
-    this.attackSpeed = obj.attackSpeed ?? 0;
+    this.attackSpeed = (170 / obj.attackSpeed) * 1000 ?? 0;
     this.ability = obj.ability ?? null;
     this.selected = obj.selected ?? false;
     this.new = obj.new ?? false;
   }
+
+  checkCollision() {}
 }

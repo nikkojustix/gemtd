@@ -1,11 +1,10 @@
 import Sprite from "./Sprite.js";
-import { loadJSON } from "./Loader.js";
 
 export default class Cinematic extends Sprite {
   constructor(props = {}) {
     super(props);
 
-    this.cooldown = 0;
+    this.cooldown = props.cooldown ?? 0;
     this.timer = 0;
   }
 
@@ -20,6 +19,12 @@ export default class Cinematic extends Sprite {
     this.timer += delta;
 
     if (this.timer >= this.cooldown) {
+      console.log(this.cooldown);
+
+      console.log("fire");
+      this.timer = 0;
+      this.x = 96;
+      this.y = 96;
     }
   }
 

@@ -2,6 +2,9 @@ import Game from "./Game.js";
 import { loadImage, loadJSON } from "./Loader.js";
 import Sprite from "./Sprite.js";
 import DisplayObject from "./DisplayObject.js";
+import Cinematic from "./Cinematic.js";
+import Tower from "./Tower.js";
+import Enemy from "./Enemy.js";
 
 export default async function main() {
   const atlas = await loadJSON("/json/atlas.json");
@@ -17,7 +20,7 @@ export default async function main() {
   const zones = Object.values(atlas.startFinish);
   const roads = Object.values(atlas.roads);
 
-  const tempSpeed = 1;
+  const tempSpeed = 2;
 
   let currentChanceLevel = 0;
   let chances = [0, 0, 0, 0, 0];
@@ -113,9 +116,10 @@ export default async function main() {
     if (gemCounter == 5) {
       buildBtn.removeEventListener("click", buildPhase);
       gemCounter = 0;
+      game.canvas.removeEventListener("click", buildGem);
     }
     gemCounter++;
-    game.canvas.removeEventListener("click", buildGem);
+    // game.canvas.removeEventListener("click", buildGem);
   };
 
   function getPostion(e) {
@@ -178,7 +182,7 @@ export default async function main() {
     const randRank = getRandomRank();
     console.log("randRank: ", randRank);
 
-    const randomGem = new Sprite({
+    const randomGem = new Tower({
       image: images,
       frame: {
         x: atlas.gems[randGem][randRank].x,
@@ -188,9 +192,10 @@ export default async function main() {
       },
       x: pos.x,
       y: pos.y,
+      name: atlas.gems[randGem][randRank].name,
       range: atlas.gems[randGem][randRank].range * scale,
-      gemType: randGem,
-      gemRank: randRank,
+      type: randGem,
+      rank: randRank,
       damage: atlas.gems[randGem][randRank].damage,
       ability: atlas.gems[randGem][randRank].ability,
       attackSpeed: atlas.gems[randGem][randRank].attackSpeed,
@@ -228,7 +233,7 @@ export default async function main() {
         if (item.x == pos.x && item.y == pos.y) {
           while (showArea.firstChild) showArea.removeChild(showArea.firstChild);
           showArea.append(item.image);
-          console.log(item.image);
+          console.log(item.attackSpeed);
           showDescription(item);
           item.selected = true;
           if (item.new && gemCounter == 1) {
@@ -248,7 +253,7 @@ export default async function main() {
   }
 
   function showDescription(item) {
-    descrArea.innerHTML = `gem: ${item.gemRank} ${item.gemType} <br>
+    descrArea.innerHTML = `gem: ${item.name} <br>
     range: ${item.range} <br>
     damage: ${item.damage}<br>
     Ability: ${item.ability}`;
@@ -283,8 +288,8 @@ export default async function main() {
       if (Object.hasOwnProperty.call(maze, gems)) {
         const gem = maze[gems];
         if (gem.new && gem != e.currentTarget.item) {
-          gem.gemType = "rock";
-          gem.gemRank = "";
+          gem.type = "rock";
+          gem.rank = "";
           gem.set(atlas.rock);
         }
       }
@@ -297,9 +302,9 @@ export default async function main() {
 
   const downgradeGem = function (e) {
     const item = e.currentTarget.item;
-    const newRank = ranks.indexOf(item.gemRank[0]) - 1;
-    item.gemRank = ranks[newRank];
-    item.set(atlas.gems[item.gemType][item.gemRank]);
+    const newRank = ranks.indexOf(item.rank[0]) - 1;
+    item.rank = ranks[newRank];
+    item.set(atlas.gems[item.type][item.rank]);
     selectGem(e);
   };
 
@@ -308,8 +313,8 @@ export default async function main() {
     maze.forEach((gem) => {
       if (
         gem.new &&
-        gem.gemRank[0] == item.gemRank[0] &&
-        gem.gemType[0] == item.gemType[0]
+        gem.rank[0] == item.rank[0] &&
+        gem.type[0] == item.type[0]
       ) {
         cnt++;
       }
@@ -320,18 +325,18 @@ export default async function main() {
 
   const combineGem = function (e) {
     const item = e.currentTarget.item;
-    const newRank = ranks.indexOf(item.gemRank[0]) + 1;
-    item.gemRank = ranks[newRank];
-    item.set(atlas.gems[item.gemType][item.gemRank]);
+    const newRank = ranks.indexOf(item.rank[0]) + 1;
+    item.rank = ranks[newRank];
+    item.set(atlas.gems[item.type][item.rank]);
     console.log(item.image);
     selectGem(e);
   };
 
   const combineDoubleGem = function (e) {
     const item = e.currentTarget.item;
-    const newRank = ranks.indexOf(item.gemRank[0]) + 2;
-    item.gemRank = ranks[newRank];
-    item.set(atlas.gems[item.gemType][item.gemRank]);
+    const newRank = ranks.indexOf(item.rank[0]) + 2;
+    item.rank = ranks[newRank];
+    item.set(atlas.gems[item.type][item.rank]);
     selectGem(e);
   };
 
@@ -357,8 +362,8 @@ export default async function main() {
   }
 
   function createEnemies() {
-    for (let i = 0; i < 1; i++) {
-      const newEnemy = new Sprite({
+    for (let i = 0; i < 3; i++) {
+      const newEnemy = new Enemy({
         image: images,
         frame: {
           x: atlas.enemies.x,
@@ -433,49 +438,52 @@ export default async function main() {
     for (const items in maze) {
       if (Object.hasOwnProperty.call(maze, items)) {
         const item = maze[items];
-        if (item.gemType != "rock") {
+        if (item.type != "rock") {
           enemies.forEach((enemy) => {
-            const interval = setInterval(() => {
-              const bullet = new Sprite({
-                image: images,
-                frame: {
-                  x: atlas.bullet.x,
-                  y: atlas.bullet.y,
-                  width: 20,
-                  height: 20,
-                },
-                x: item.x,
-                y: item.y,
-                width: item.width,
-                height: item.height,
-                speedX: 5,
-                speedY: 2,
-              });
+            game.ctx.beginPath();
+            game.ctx.arc(
+              (2 * item.x + item.width) / 2,
+              (2 * item.y + item.height) / 2,
+              item.range,
+              0,
+              2 * Math.PI
+            );
+            if (
+              game.ctx.isPointInPath(enemy.x, enemy.y) ||
+              game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+              game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+              game.ctx.isPointInPath(
+                enemy.x + enemy.width,
+                enemy.y + enemy.height
+              )
+            ) {
+              // console.log("fire");
+              // game.stage.add(bullet);
+            } else {
+              console.log("stop fire");
+            }
 
-              game.stage.add(bullet);
-
-              game.ctx.beginPath();
-              game.ctx.arc(
-                (2 * item.x + item.width) / 2,
-                (2 * item.y + item.height) / 2,
-                item.range,
-                0,
-                2 * Math.PI
-              );
-              while (
-                game.ctx.isPointInPath(enemy.x, enemy.y) ||
-                game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
-                game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
-                game.ctx.isPointInPath(
-                  enemy.x + enemy.width,
-                  enemy.y + enemy.height
-                )
-              ) {
-                // console.log("fire");
-              }
-
-              console.log(item.range);
-            }, (170 / item.attackSpeed) * 1000);
+            // const interval = setInterval(() => {
+            const bullet = new Cinematic({
+              image: images,
+              frame: {
+                x: atlas.bullet.x,
+                y: atlas.bullet.y,
+                width: 20,
+                height: 20,
+              },
+              x: item.x,
+              y: item.y,
+              width: item.width,
+              height: item.height,
+              speedX: 1,
+              speedY: 2,
+              cooldown: item.attackSpeed,
+            });
+            console.log(item.attackSpeed);
+            game.stage.add(bullet);
+            console.log(item.range);
+            // }, (170 / item.attackSpeed) * 1000);
           });
         }
       }
@@ -500,7 +508,7 @@ export default async function main() {
     for (const items in maze) {
       if (Object.hasOwnProperty.call(maze, items)) {
         const item = maze[items];
-        if (item.x == pos.x && item.y == pos.y && item.gemType == "rock") {
+        if (item.x == pos.x && item.y == pos.y && item.type == "rock") {
           game.stage.delete(item);
           maze.splice(maze.indexOf(item), 1);
           grid.setWalkableAt(item.x / scale, item.y / scale, true);
