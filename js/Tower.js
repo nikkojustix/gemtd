@@ -12,11 +12,31 @@ export default class Tower extends Sprite {
     this.ability = props.ability ?? null;
     this.new = props.new ?? false;
     this.combination = props.combination ?? null;
+    this.timer = 0;
+    this.fire = false;
   }
 
-  update() {}
+  update(delta) {
+    this.timer += delta;
+    if (!this.new) {
+      if (this.timer >= this.attackSpeed) {
+        this.fire = true;
+        this.timer = 0;
+      } else {
+        this.fire = false;
+      }
+    }
+  }
+
+  attack() {}
+
+  inRadius() {}
 
   draw(ctx) {
     super.draw(ctx);
+  }
+
+  get fireStatus() {
+    return this.fire;
   }
 }

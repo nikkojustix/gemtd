@@ -2,9 +2,10 @@ import Game from "./Game.js";
 import { loadImage, loadJSON } from "./Loader.js";
 import Sprite from "./Sprite.js";
 import DisplayObject from "./DisplayObject.js";
-import Cinematic from "./Cinematic.js";
+// import Cinematic from "./Cinematic.js";
 import Tower from "./Tower.js";
 import Enemy from "./Enemy.js";
+import Bullet from "./Bullet.js";
 
 export default async function main() {
   const atlas = await loadJSON("/json/atlas.json");
@@ -20,7 +21,7 @@ export default async function main() {
   const zones = Object.values(atlas.startFinish);
   const roads = Object.values(atlas.roads);
 
-  const tempSpeed = 2;
+  const tempSpeed = 1;
 
   let currentChanceLevel = 0;
   let chances = [0, 0, 0, 0, 0];
@@ -439,7 +440,7 @@ export default async function main() {
       if (Object.hasOwnProperty.call(maze, items)) {
         const item = maze[items];
         if (item.type != "rock") {
-          enemies.forEach((enemy) => {
+          item.inRadius = () => {
             game.ctx.beginPath();
             game.ctx.arc(
               (2 * item.x + item.width) / 2,
@@ -448,43 +449,50 @@ export default async function main() {
               0,
               2 * Math.PI
             );
-            if (
-              game.ctx.isPointInPath(enemy.x, enemy.y) ||
-              game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
-              game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
-              game.ctx.isPointInPath(
-                enemy.x + enemy.width,
-                enemy.y + enemy.height
-              )
-            ) {
-              // console.log("fire");
-              // game.stage.add(bullet);
-            } else {
-              console.log("stop fire");
-            }
-
-            // const interval = setInterval(() => {
-            const bullet = new Cinematic({
-              image: images,
-              frame: {
-                x: atlas.bullet.x,
-                y: atlas.bullet.y,
-                width: 20,
-                height: 20,
-              },
-              x: item.x,
-              y: item.y,
-              width: item.width,
-              height: item.height,
-              speedX: 1,
-              speedY: 2,
-              cooldown: item.attackSpeed,
+            enemies.forEach((enemy) => {
+              if (
+                game.ctx.isPointInPath(enemy.x, enemy.y) ||
+                game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+                game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+                game.ctx.isPointInPath(
+                  enemy.x + enemy.width,
+                  enemy.y + enemy.height
+                )
+              ) {
+                item.attack = () => {
+                  if (item.fireStatus) {
+                    const newBullet = new Bullet({
+                      image: images,
+                      frame: {
+                        x: atlas.bullet.x,
+                        y: atlas.bullet.y,
+                        width: 20,
+                        height: 20,
+                      },
+                      x: item.x,
+                      y: item.y,
+                      width: item.width,
+                      height: item.height,
+                      speedX:
+                        ((enemy.x - item.x) /
+                          (Math.abs(enemy.x - item.x) +
+                            Math.abs(enemy.y - item.y))) *
+                        10,
+                      speedY:
+                        ((enemy.y - item.y) /
+                          (Math.abs(enemy.x - item.x) +
+                            Math.abs(enemy.y - item.y))) *
+                        10,
+                      tower: item,
+                    });
+                    game.stage.add(newBullet);
+                  }
+                };
+              } else {
+                item.attack = () => {};
+              }
             });
-            console.log(item.attackSpeed);
-            game.stage.add(bullet);
-            console.log(item.range);
-            // }, (170 / item.attackSpeed) * 1000);
-          });
+          };
         }
       }
     }

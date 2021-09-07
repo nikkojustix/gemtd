@@ -65,6 +65,4 @@ export default class Sprite extends DisplayObject {
     this.selected = obj.selected ?? false;
     this.new = obj.new ?? false;
   }
-
-  checkCollision() {}
 }

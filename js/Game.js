@@ -57,6 +57,9 @@ export default class Game {
     this.update();
     this.stage.update(delta);
 
+    this.stage.inRadius();
+    this.stage.attack();
+
     this.clearCanvas();
     this.drawBackground();
     this.drawBoard();

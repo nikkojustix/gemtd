@@ -28,6 +28,14 @@ export default class Group extends DisplayObject {
     this.items.forEach((x) => x.update(delta));
   }
 
+  inRadius() {
+    this.items.forEach((x) => x.inRadius());
+  }
+
+  attack() {
+    this.items.forEach((x) => x.attack());
+  }
+
   draw(ctx) {
     this.items.forEach((x) => x.draw(ctx));
   }
