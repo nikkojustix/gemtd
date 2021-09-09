@@ -6,6 +6,7 @@ import DisplayObject from "./DisplayObject.js";
 import Tower from "./Tower.js";
 import Enemy from "./Enemy.js";
 import Bullet from "./Bullet.js";
+import { haveCollision } from "./Additional.js";
 
 export default async function main() {
   const atlas = await loadJSON("/json/atlas.json");
@@ -181,7 +182,6 @@ export default async function main() {
     const gems = Object.keys(atlas.gems);
     const randGem = gems[Math.floor(gems.length * Math.random())];
     const randRank = getRandomRank();
-    console.log("randRank: ", randRank);
 
     const randomGem = new Tower({
       image: images,
@@ -363,7 +363,7 @@ export default async function main() {
   }
 
   function createEnemies() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       const newEnemy = new Enemy({
         image: images,
         frame: {
@@ -435,6 +435,8 @@ export default async function main() {
     };
   }
 
+  let targets = [];
+
   function fireBullet() {
     for (const items in maze) {
       if (Object.hasOwnProperty.call(maze, items)) {
@@ -449,6 +451,7 @@ export default async function main() {
               0,
               2 * Math.PI
             );
+
             enemies.forEach((enemy) => {
               if (
                 game.ctx.isPointInPath(enemy.x, enemy.y) ||
@@ -459,42 +462,52 @@ export default async function main() {
                   enemy.y + enemy.height
                 )
               ) {
-                item.attack = () => {
-                  if (item.fireStatus) {
-                    const newBullet = new Bullet({
-                      image: images,
-                      frame: {
-                        x: atlas.bullet.x,
-                        y: atlas.bullet.y,
-                        width: 20,
-                        height: 20,
-                      },
-                      x: item.x,
-                      y: item.y,
-                      width: item.width,
-                      height: item.height,
-                      speedX:
-                        ((enemy.x - item.x) /
-                          (Math.abs(enemy.x - item.x) +
-                            Math.abs(enemy.y - item.y))) *
-                        10,
-                      speedY:
-                        ((enemy.y - item.y) /
-                          (Math.abs(enemy.x - item.x) +
-                            Math.abs(enemy.y - item.y))) *
-                        10,
-                      tower: item,
-                    });
-                    game.stage.add(newBullet);
-                  }
-                };
+                if (!targets.includes(enemy)) {
+                  targets.push(enemy);
+                }
+                const newBullet = attack(item, targets[0]);
+                if (newBullet) {
+                  if (haveCollision(newBullet, enemy))
+                    game.stage.delete(newBullet);
+                }
               } else {
-                item.attack = () => {};
+                if (targets.includes(enemy))
+                  targets.splice(targets.indexOf(enemy), 1);
               }
             });
           };
         }
       }
+    }
+  }
+
+  function attack(tower, enemy) {
+    if (tower.fireStatus) {
+      const newBullet = new Bullet({
+        image: images,
+        frame: {
+          x: atlas.bullet.x,
+          y: atlas.bullet.y,
+          width: 20,
+          height: 20,
+        },
+        x: tower.x,
+        y: tower.y,
+        width: tower.width,
+        height: tower.height,
+        speedX:
+          ((enemy.x - tower.x) /
+            (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+          10,
+        speedY:
+          ((enemy.y - tower.y) /
+            (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+          10,
+        tower: tower,
+      });
+      game.stage.add(newBullet);
+      return newBullet;
+      if (haveCollision(newBullet, enemy)) game.stage.delete(newBullet);
     }
   }
 
