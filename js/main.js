@@ -193,6 +193,8 @@ export default async function main() {
       },
       x: pos.x,
       y: pos.y,
+      width: scale,
+      height: scale,
       name: atlas.gems[randGem][randRank].name,
       range: atlas.gems[randGem][randRank].range * scale,
       type: randGem,
@@ -374,9 +376,8 @@ export default async function main() {
         },
         x: waypoints[0].x * scale,
         y: waypoints[0].y * scale,
-        width: waypoints[0].width * scale,
-        height: waypoints[0].height * scale,
-        // speedY: tempSpeed,
+        width: scale,
+        height: scale,
       });
       enemies.push(newEnemy);
     }
@@ -467,8 +468,10 @@ export default async function main() {
                 }
                 const newBullet = attack(item, targets[0]);
                 if (newBullet) {
-                  if (haveCollision(newBullet, enemy))
-                    game.stage.delete(newBullet);
+                  game.hit = () => {
+                    if (haveCollision(newBullet, enemy))
+                      game.stage.delete(newBullet);
+                  };
                 }
               } else {
                 if (targets.includes(enemy))
@@ -488,26 +491,26 @@ export default async function main() {
         frame: {
           x: atlas.bullet.x,
           y: atlas.bullet.y,
-          width: 20,
-          height: 20,
+          width: scale,
+          height: scale,
         },
         x: tower.x,
         y: tower.y,
-        width: tower.width,
-        height: tower.height,
+        width: scale,
+        height: scale,
         speedX:
           ((enemy.x - tower.x) /
             (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-          10,
+          8,
         speedY:
           ((enemy.y - tower.y) /
             (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-          10,
+          8,
         tower: tower,
       });
       game.stage.add(newBullet);
-      return newBullet;
       if (haveCollision(newBullet, enemy)) game.stage.delete(newBullet);
+      return newBullet;
     }
   }
 

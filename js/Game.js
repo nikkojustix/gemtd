@@ -20,6 +20,8 @@ export default class Game {
 
   update() {}
 
+  hit() {}
+
   clearCanvas() {
     this.canvas.width = this.canvas.width;
   }
@@ -55,6 +57,7 @@ export default class Game {
     this.pTimestamp = timestamp;
 
     this.update();
+    this.hit();
     this.stage.update(delta);
 
     this.stage.inRadius();
