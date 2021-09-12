@@ -2,7 +2,6 @@ import Game from "./Game.js";
 import { loadImage, loadJSON } from "./Loader.js";
 import Sprite from "./Sprite.js";
 import DisplayObject from "./DisplayObject.js";
-// import Cinematic from "./Cinematic.js";
 import Tower from "./Tower.js";
 import Enemy from "./Enemy.js";
 import Bullet from "./Bullet.js";
@@ -349,7 +348,7 @@ export default async function main() {
       let id = setTimeout(function addEnemy() {
         game.stage.add(enemies[i]);
         i++;
-        id = setTimeout(addEnemy, 1500);
+        id = setTimeout(addEnemy, 1000);
         if (i == enemies.length) {
           console.log("конец");
           clearTimeout(id);
@@ -365,12 +364,13 @@ export default async function main() {
   }
 
   function createEnemies() {
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       const newEnemy = new Enemy({
+        name: atlas.enemies[roundLevel - 1].name,
         image: images,
         frame: {
-          x: atlas.enemies.x,
-          y: atlas.enemies.y,
+          x: atlas.enemies[roundLevel - 1].x,
+          y: atlas.enemies[roundLevel - 1].y,
           width: 20,
           height: 20,
         },
@@ -378,8 +378,13 @@ export default async function main() {
         y: waypoints[0].y * scale,
         width: scale,
         height: scale,
+        hp: atlas.enemies[roundLevel - 1].hp,
+        moveSpeed: atlas.enemies[roundLevel - 1].moveSpeed,
+        armor: atlas.enemies[roundLevel - 1].armor,
+        flying: atlas.enemies[roundLevel - 1].flying,
       });
       enemies.push(newEnemy);
+      console.log(newEnemy.hp);
     }
     return true;
   }
@@ -415,7 +420,6 @@ export default async function main() {
           ) {
             if (j == paths[pathN[i]].length - 1) {
               if (pathN[i] == 5) {
-                console.log(enemies[i]);
                 deleteEnemy(enemies[i]);
                 return;
               }
@@ -469,8 +473,15 @@ export default async function main() {
                 const newBullet = attack(item, targets[0]);
                 if (newBullet) {
                   game.hit = () => {
-                    if (haveCollision(newBullet, enemy))
+                    if (haveCollision(newBullet, enemy)) {
                       game.stage.delete(newBullet);
+                      enemy.hp -= item.damage;
+                      console.log(enemy.hp);
+                      if (enemy.hp <= 0) {
+                        deleteEnemy(enemy);
+                        game.hit = () => {};
+                      }
+                    }
                   };
                 }
               } else {

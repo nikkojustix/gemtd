@@ -627,13 +627,24 @@
     }
   },
 
-  "enemies": {
-    "name": "miner",
-    "x": 20,
-    "y": 360,
-    "hp": 2,
-    "moveSpeed": 300,
-    "armor": 0,
-    "flying": false
-  }
+  "enemies": [
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "knight",
+      "x": 20,
+      "y": 360,
+      "hp": 6,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    }
+  ]
 }
