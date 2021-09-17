@@ -5,6 +5,7 @@ export default class Bullet extends Sprite {
     super(props);
 
     this.tower = props.tower ?? null;
+    this.hit = props.hit ?? false;
   }
 
   update() {

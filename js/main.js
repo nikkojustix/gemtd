@@ -364,7 +364,7 @@ export default async function main() {
   }
 
   function createEnemies() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1; i++) {
       const newEnemy = new Enemy({
         name: atlas.enemies[roundLevel - 1].name,
         image: images,
@@ -470,16 +470,21 @@ export default async function main() {
                 if (!targets.includes(enemy)) {
                   targets.push(enemy);
                 }
-                const newBullet = attack(item, targets[0]);
+                let newBullet = attack(item, targets[0]);
                 if (newBullet) {
                   game.hit = () => {
-                    if (haveCollision(newBullet, enemy)) {
-                      game.stage.delete(newBullet);
-                      enemy.hp -= item.damage;
-                      console.log(enemy.hp);
-                      if (enemy.hp <= 0) {
-                        deleteEnemy(enemy);
-                        game.hit = () => {};
+                    if (!newBullet.hit) {
+                      if (haveCollision(newBullet, enemy)) {
+                        game.stage.delete(newBullet);
+                        newBullet.hit = true;
+                        enemy.hp -= item.damage;
+                        console.log(enemy.hp);
+                        newBullet.speedX = 0;
+                        newBullet.speedY = 0;
+                        if (enemy.hp <= 0) {
+                          deleteEnemy(enemy);
+                          // game.hit = () => {};
+                        }
                       }
                     }
                   };
@@ -520,7 +525,6 @@ export default async function main() {
         tower: tower,
       });
       game.stage.add(newBullet);
-      if (haveCollision(newBullet, enemy)) game.stage.delete(newBullet);
       return newBullet;
     }
   }
