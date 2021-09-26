@@ -21,7 +21,11 @@ export default async function main() {
   const zones = Object.values(atlas.startFinish);
   const roads = Object.values(atlas.roads);
 
+  let paths;
+
   const tempSpeed = 1;
+
+  let phase = 0;
 
   let currentChanceLevel = 0;
   let chances = [0, 0, 0, 0, 0];
@@ -106,6 +110,7 @@ export default async function main() {
   }
 
   const buildPhase = function () {
+    phase = 0;
     game.canvas.addEventListener("click", buildGem);
   };
 
@@ -343,28 +348,30 @@ export default async function main() {
   };
 
   function attackPhase() {
+    phase = 1;
     if (createEnemies()) {
-      let i = 0;
-      let id = setTimeout(function addEnemy() {
-        game.stage.add(enemies[i]);
-        i++;
-        id = setTimeout(addEnemy, 1000);
-        if (i == enemies.length) {
-          console.log("конец");
-          clearTimeout(id);
-        }
-      }, 1500);
-
-      const paths = createPath();
-      console.log(paths);
-      roadmap(paths);
+      // let i = 0;
+      // let id = setTimeout(function addEnemy() {
+      //   game.stage.add(enemies[i]);
+      //   console.log(i);
+      //   i++;
+      //   id = setTimeout(addEnemy, 1500);
+      //   if (i == enemies.length) {
+      //     console.log("конец");
+      //     clearTimeout(id);
+      //   }
+      // }, 1000);
+      enemies.forEach((enemy) => {
+        game.stage.add(enemy);
+      });
+      paths = createPath();
     }
 
-    fireBullet();
+    // fireBullet();
   }
 
   function createEnemies() {
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       const newEnemy = new Enemy({
         name: atlas.enemies[roundLevel - 1].name,
         image: images,
@@ -382,9 +389,10 @@ export default async function main() {
         moveSpeed: atlas.enemies[roundLevel - 1].moveSpeed,
         armor: atlas.enemies[roundLevel - 1].armor,
         flying: atlas.enemies[roundLevel - 1].flying,
+        visible: false,
+        delay: (i + 1) * 1000,
       });
       enemies.push(newEnemy);
-      console.log(newEnemy.hp);
     }
     return true;
   }
@@ -411,7 +419,49 @@ export default async function main() {
     for (let i = 0; i < enemies.length; i++) {
       pathN[i] = 0;
     }
-    game.update = () => {
+    for (let i = 0; i < enemies.length; i++) {
+      for (let j = 0; j < paths[pathN[i]].length; j++) {
+        if (
+          enemies[i].x == paths[pathN[i]][j][0] * scale &&
+          enemies[i].y == paths[pathN[i]][j][1] * scale
+        ) {
+          if (j == paths[pathN[i]].length - 1) {
+            if (pathN[i] == 5) {
+              deleteEnemy(enemies[i]);
+              return;
+            }
+            pathN[i]++;
+            enemies[i].speedX =
+              (paths[pathN[i]][1][0] - paths[pathN[i]][0][0]) * tempSpeed;
+            enemies[i].speedY =
+              (paths[pathN[i]][1][1] - paths[pathN[i]][0][1]) * tempSpeed;
+          } else {
+            enemies[i].speedX =
+              (paths[pathN[i]][j + 1][0] - paths[pathN[i]][j][0]) * tempSpeed;
+            enemies[i].speedY =
+              (paths[pathN[i]][j + 1][1] - paths[pathN[i]][j][1]) * tempSpeed;
+          }
+        }
+      }
+    }
+  }
+
+  let pathN = [];
+  for (let i = 0; i < enemies.length; i++) {
+    pathN[i] = 0;
+  }
+
+  game.update = () => {
+    if (phase) {
+      // enemies.forEach((enemy) => {
+      //   if (enemy.isNext) {
+      //     console.log(enemy);
+      //   }
+      // });
+
+      // const paths = createPath();
+      // roadmap(paths);
+
       for (let i = 0; i < enemies.length; i++) {
         for (let j = 0; j < paths[pathN[i]].length; j++) {
           if (
@@ -437,101 +487,108 @@ export default async function main() {
           }
         }
       }
-    };
-  }
 
-  let targets = [];
-
-  function fireBullet() {
-    for (const items in maze) {
-      if (Object.hasOwnProperty.call(maze, items)) {
-        const item = maze[items];
+      maze.forEach((item) => {
         if (item.type != "rock") {
-          item.inRadius = () => {
-            game.ctx.beginPath();
-            game.ctx.arc(
-              (2 * item.x + item.width) / 2,
-              (2 * item.y + item.height) / 2,
-              item.range,
-              0,
-              2 * Math.PI
-            );
-
-            enemies.forEach((enemy) => {
-              if (
-                game.ctx.isPointInPath(enemy.x, enemy.y) ||
-                game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
-                game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
-                game.ctx.isPointInPath(
-                  enemy.x + enemy.width,
-                  enemy.y + enemy.height
-                )
-              ) {
-                if (!targets.includes(enemy)) {
-                  targets.push(enemy);
-                }
-                let newBullet = attack(item, targets[0]);
-                if (newBullet) {
-                  game.hit = () => {
-                    if (!newBullet.hit) {
-                      if (haveCollision(newBullet, enemy)) {
-                        game.stage.delete(newBullet);
-                        newBullet.hit = true;
-                        enemy.hp -= item.damage;
-                        console.log(enemy.hp);
-                        newBullet.speedX = 0;
-                        newBullet.speedY = 0;
-                        if (enemy.hp <= 0) {
-                          deleteEnemy(enemy);
-                          // game.hit = () => {};
-                        }
-                      }
-                    }
-                  };
-                }
-              } else {
-                if (targets.includes(enemy))
-                  targets.splice(targets.indexOf(enemy), 1);
-              }
-            });
-          };
+          // if (item.fireStatus) console.log("fire");
         }
-      }
-    }
-  }
-
-  function attack(tower, enemy) {
-    if (tower.fireStatus) {
-      const newBullet = new Bullet({
-        image: images,
-        frame: {
-          x: atlas.bullet.x,
-          y: atlas.bullet.y,
-          width: scale,
-          height: scale,
-        },
-        x: tower.x,
-        y: tower.y,
-        width: scale,
-        height: scale,
-        speedX:
-          ((enemy.x - tower.x) /
-            (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-          8,
-        speedY:
-          ((enemy.y - tower.y) /
-            (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-          8,
-        tower: tower,
       });
-      game.stage.add(newBullet);
-      return newBullet;
     }
-  }
+  };
+
+  // let targets = [];
+
+  // function fireBullet() {
+  //   for (const items in maze) {
+  //     if (Object.hasOwnProperty.call(maze, items)) {
+  //       const item = maze[items];
+  //       if (item.type != "rock") {
+  //         item.inRadius = () => {
+  //           game.ctx.beginPath();
+  //           game.ctx.arc(
+  //             (2 * item.x + item.width) / 2,
+  //             (2 * item.y + item.height) / 2,
+  //             item.range,
+  //             0,
+  //             2 * Math.PI
+  //           );
+
+  //           enemies.forEach((enemy) => {
+  //             if (
+  //               game.ctx.isPointInPath(enemy.x, enemy.y) ||
+  //               game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+  //               game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+  //               game.ctx.isPointInPath(
+  //                 enemy.x + enemy.width,
+  //                 enemy.y + enemy.height
+  //               )
+  //             ) {
+  //               if (!targets.includes(enemy)) {
+  //                 targets.push(enemy);
+  //               }
+  //               let newBullet = attack(item, targets[0]);
+  //               if (newBullet) {
+  //                 game.hit = () => {
+  //                   if (!newBullet.hit) {
+  //                     if (haveCollision(newBullet, enemy)) {
+  //                       game.stage.delete(newBullet);
+  //                       newBullet.hit = true;
+  //                       enemy.hp -= item.damage;
+  //                       console.log(enemy.hp);
+  //                       newBullet.speedX = 0;
+  //                       newBullet.speedY = 0;
+  //                       if (enemy.hp <= 0) {
+  //                         deleteEnemy(enemy);
+  //                         // game.hit = () => {};
+  //                       }
+  //                     }
+  //                   }
+  //                 };
+  //               }
+  //             } else {
+  //               if (targets.includes(enemy))
+  //                 targets.splice(targets.indexOf(enemy), 1);
+  //             }
+  //           });
+  //         };
+  //       }
+  //     }
+  //   }
+  // }
+
+  // function attack(tower, enemy) {
+  //   if (tower.fireStatus) {
+  //     const newBullet = new Bullet({
+  //       image: images,
+  //       frame: {
+  //         x: atlas.bullet.x,
+  //         y: atlas.bullet.y,
+  //         width: scale,
+  //         height: scale,
+  //       },
+  //       x: tower.x,
+  //       y: tower.y,
+  //       width: scale,
+  //       height: scale,
+  //       speedX:
+  //         ((enemy.x - tower.x) /
+  //           (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+  //         8,
+  //       speedY:
+  //         ((enemy.y - tower.y) /
+  //           (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+  //         8,
+  //       tower: tower,
+  //     });
+  //     game.stage.add(newBullet);
+  //     return newBullet;
+  //   }
+  // }
 
   function deleteEnemy(enemy) {
     enemies.splice(enemies.indexOf(enemy), 1);
     game.stage.delete(enemy);
+    console.log(enemies);
     if (enemies.length == 0) {
       roundLevel++;
       startRound();

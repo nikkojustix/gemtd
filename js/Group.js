@@ -1,5 +1,4 @@
 import DisplayObject from "./DisplayObject.js";
-import Sprite from "./Sprite.js";
 
 export default class Group extends DisplayObject {
   constructor(props = {}) {

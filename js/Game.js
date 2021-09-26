@@ -56,7 +56,7 @@ export default class Game {
     const delta = timestamp - this.pTimestamp;
     this.pTimestamp = timestamp;
 
-    this.update();
+    this.update(delta);
     this.hit();
     this.stage.update(delta);
 

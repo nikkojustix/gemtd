@@ -8,9 +8,29 @@ export default class Enemy extends Sprite {
     this.moveSpeed = props.moveSpeed ?? 0;
     this.armor = props.armor ?? 0;
     this.flying = props.flying ?? false;
+    this.delay = props.delay ?? 0;
+    this.timer = 0;
+    this.next = false;
+  }
+
+  update(delta) {
+    super.update();
+    this.timer += delta;
+    if (this.timer >= this.delay) {
+      this.next = true;
+      this.visible = true;
+      this.timer = 0;
+    } else {
+      this.next = false;
+    }
   }
 
   draw(ctx) {
-    super.draw(ctx);
+    if (this.visible) {
+      super.draw(ctx);
+    }
+  }
+  get isNext() {
+    return this.next;
   }
 }
