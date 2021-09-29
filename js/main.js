@@ -361,13 +361,23 @@ export default async function main() {
       //     clearTimeout(id);
       //   }
       // }, 1000);
-      enemies.forEach((enemy) => {
-        game.stage.add(enemy);
-      });
+
+      addEnemy()
       paths = createPath();
     }
 
     // fireBullet();
+  }
+  let enemyNumber = 0
+  function addEnemy() {
+    if (enemyNumber >= 10) return
+    // console.log('new Enemy');
+    game.stage.add(enemies[enemyNumber])
+    enemyNumber++
+
+    setTimeout(() => {
+      addEnemy()
+    }, 1000)
   }
 
   function createEnemies() {
@@ -390,7 +400,7 @@ export default async function main() {
         armor: atlas.enemies[roundLevel - 1].armor,
         flying: atlas.enemies[roundLevel - 1].flying,
         visible: false,
-        delay: (i + 1) * 1000,
+        // delay: (i + 1) * 1000,
       });
       enemies.push(newEnemy);
     }
@@ -446,12 +456,12 @@ export default async function main() {
     }
   }
 
-  let pathN = [];
-  for (let i = 0; i < enemies.length; i++) {
-    pathN[i] = 0;
-  }
 
   game.update = () => {
+    let pathN = [];
+    for (let i = 0; i < enemies.length; i++) {
+      pathN[i] = 0;
+    }
     if (phase) {
       // enemies.forEach((enemy) => {
       //   if (enemy.isNext) {
