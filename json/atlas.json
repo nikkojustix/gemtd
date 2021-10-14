@@ -4,7 +4,6 @@
     "cols": 37,
     "size": 24
   },
-
   "waypoints": [
     {
       "x": 4,
@@ -49,7 +48,6 @@
       "height": 1
     }
   ],
-
   "startFinish": [
     {
       "x": 0,
@@ -64,7 +62,6 @@
       "height": 9
     }
   ],
-
   "roads": [
     {
       "x": 4,
@@ -103,18 +100,15 @@
       "height": 1
     }
   ],
-
   "rock": {
     "name": "rock",
     "x": 0,
     "y": 280
   },
-
   "bullet": {
     "x": 20,
     "y": 280
   },
-
   "gems": {
     "b": {
       "1": {
@@ -565,7 +559,6 @@
       }
     }
   },
-
   "towers": {
     "silver": {
       "name": "silver",
@@ -575,7 +568,11 @@
       "damage": 25,
       "attackSpeed": 170,
       "ability": "",
-      "combination": ["b1", "d1", "y1"]
+      "combination": [
+        "b1",
+        "d1",
+        "y1"
+      ]
     },
     "silverKnight": {
       "name": "silver knight",
@@ -585,10 +582,13 @@
       "damage": 60,
       "attackSpeed": 213,
       "ability": "",
-      "combination": ["silver", "q2", "r3"]
+      "combination": [
+        "silver",
+        "q2",
+        "r3"
+      ]
     }
   },
-
   "chances": {
     "1": {
       "1": 1,
@@ -626,8 +626,232 @@
       "5": 1
     }
   },
-
   "enemies": [
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 6,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
     {
       "name": "spider",
       "x": 0,
@@ -642,6 +866,213 @@
       "x": 20,
       "y": 360,
       "hp": 6,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
+      "moveSpeed": 300,
+      "armor": 0,
+      "flying": false
+    },
+    {
+      "name": "spider",
+      "x": 0,
+      "y": 360,
+      "hp": 3,
       "moveSpeed": 300,
       "armor": 0,
       "flying": false
