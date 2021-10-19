@@ -28,9 +28,31 @@ export default class Tower extends Sprite {
     }
   }
 
-  attack() { }
+  inRadius(ctx, enemy) {
+    ctx.beginPath()
+    ctx.arc(
+      (2 * this.x + this.width) / 2,
+      (2 * this.y + this.height) / 2,
+      this.range,
+      0,
+      2 * Math.PI
+    )
 
-  inRadius() { }
+    if (
+      ctx.isPointInPath(enemy.x, enemy.y) ||
+      ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+      ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+      ctx.isPointInPath(
+        enemy.x + enemy.width,
+        enemy.y + enemy.height
+      )
+    ) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
 
   draw(ctx) {
     super.draw(ctx)

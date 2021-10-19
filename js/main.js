@@ -5,6 +5,7 @@ import DisplayObject from "./DisplayObject.js"
 import Tower from "./Tower.js"
 import Enemy from "./Enemy.js"
 import Bullet from "./Bullet.js"
+import { haveCollision } from "./Additional.js"
 
 export default async function main() {
   const atlas = await loadJSON("/json/atlas.json")
@@ -24,7 +25,7 @@ export default async function main() {
   let paths
   let pathN = []
 
-  const tempSpeed = 4
+  const tempSpeed = 1
 
   let phase = 0
 
@@ -115,7 +116,7 @@ export default async function main() {
     game.canvas.addEventListener("click", buildGem)
   }
 
-  const buildGem = (e) => {
+  const buildGem = e => {
     const pos = getPostion(e)
     if (buildingBlocked(pos)) return
     getRandomGem(pos)
@@ -129,7 +130,7 @@ export default async function main() {
     // game.canvas.removeEventListener("click", buildGem)
   }
 
-  const getPostion = (e) => {
+  const getPostion = e => {
     const rect = game.canvas.getBoundingClientRect()
     let pos = {
       x: e.clientX - rect.left,
@@ -141,7 +142,7 @@ export default async function main() {
     return pos
   }
 
-  const buildingBlocked = (pos) => {
+  const buildingBlocked = pos => {
     for (const points in waypoints) {
       if (Object.hasOwnProperty.call(waypoints, points)) {
         const point = waypoints[points]
@@ -183,7 +184,7 @@ export default async function main() {
     return false
   }
 
-  const getRandomGem = (pos) => {
+  const getRandomGem = pos => {
     const gems = Object.keys(atlas.gems)
     const randGem = gems[Math.floor(gems.length * Math.random())]
     const randRank = getRandomRank()
@@ -230,7 +231,7 @@ export default async function main() {
     }
   }
 
-  const selectItem = (e) => {
+  const selectItem = e => {
     const pos = getPostion(e)
     hideSelectControls()
     for (const items in maze) {
@@ -241,7 +242,6 @@ export default async function main() {
         if (item.x == pos.x && item.y == pos.y) {
           while (showArea.firstChild) showArea.removeChild(showArea.firstChild)
           showArea.append(item.image)
-          console.log(item.attackSpeed)
           showDescription(item)
           item.selected = true
           if (item.new && gemCounter == 1) {
@@ -260,14 +260,14 @@ export default async function main() {
     })
   }
 
-  const showDescription = (item) => {
+  const showDescription = item => {
     descrArea.innerHTML = `gem: ${item.name} <br>
     range: ${item.range} <br>
     damage: ${item.damage}<br>
     Ability: ${item.ability}`
   }
 
-  const showSelectControls = (item) => {
+  const showSelectControls = item => {
     selectBtn.removeAttribute("hidden")
     selectBtn.addEventListener("click", selectGem)
     selectBtn.item = item
@@ -291,7 +291,7 @@ export default async function main() {
     }
   }
 
-  const selectGem = (e) => {
+  const selectGem = e => {
     for (const gems in maze) {
       if (Object.hasOwnProperty.call(maze, gems)) {
         const gem = maze[gems]
@@ -308,7 +308,7 @@ export default async function main() {
     attackPhase()
   }
 
-  const downgradeGem = (e) => {
+  const downgradeGem = e => {
     const item = e.currentTarget.item
     const newRank = ranks.indexOf(item.rank[0]) - 1
     item.rank = ranks[newRank]
@@ -316,7 +316,7 @@ export default async function main() {
     selectGem(e)
   }
 
-  const isDuplicated = (item) => {
+  const isDuplicated = item => {
     let cnt = 0
     maze.forEach((gem) => {
       if (
@@ -331,7 +331,7 @@ export default async function main() {
     return cnt
   }
 
-  const combineGem = (e) => {
+  const combineGem = e => {
     const item = e.currentTarget.item
     const newRank = ranks.indexOf(item.rank[0]) + 1
     item.rank = ranks[newRank]
@@ -340,7 +340,7 @@ export default async function main() {
     selectGem(e)
   }
 
-  const combineDoubleGem = (e) => {
+  const combineDoubleGem = e => {
     const item = e.currentTarget.item
     const newRank = ranks.indexOf(item.rank[0]) + 2
     item.rank = ranks[newRank]
@@ -419,7 +419,7 @@ export default async function main() {
     return paths
   }
 
-  const roadmap = (paths) => {
+  const roadmap = paths => {
     let pathN = []
     for (let i = 0; i < enemies.length; i++) {
       pathN[i] = 0
@@ -451,18 +451,10 @@ export default async function main() {
     }
   }
 
+  let targets = []
   game.update = () => {
 
     if (phase) {
-      // enemies.forEach((enemy) => {
-      //   if (enemy.isNext) {
-      //     console.log(enemy)
-      //   }
-      // })
-
-      // const paths = createPath()
-      // roadmap(paths)
-
       enemies.forEach((enemy, i) => {
         for (let j = 0; j < paths[pathN[i]].length; j++) {
           if (
@@ -491,103 +483,132 @@ export default async function main() {
 
       maze.forEach((item) => {
         if (item.type != "rock") {
-          // if (item.fireStatus) console.log("fire")
+          enemies.forEach(enemy => {
+            if (item.inRadius(game.ctx, enemy)) {
+              if (!targets.includes(enemy)) {
+                targets.push(enemy)
+              }
+              let newBullet = attack(item, targets[0])
+              if (item.fireStatus) {
+                game.stage.add(newBullet)
+              }
+              if (haveCollision(newBullet, enemy)) {
+                console.log('collision');
+                game.stage.delete(newBullet)
+                newBullet = null
+                enemy.hp -= item.damage
+                console.log(enemy.hp)
+                // newBullet.speedX = 0
+                // newBullet.speedY = 0
+                if (enemy.hp <= 0) {
+                  deleteEnemy(enemy)
+                  targets.splice(targets.indexOf(enemy), 1)
+                  // game.hit = () => {}
+                }
+              }
+            }
+          });
         }
       })
 
     }
 
   }
-  // let targets = []
 
-  // function fireBullet() {
-  //   for (const items in maze) {
-  //     if (Object.hasOwnProperty.call(maze, items)) {
-  //       const item = maze[items]
-  //       if (item.type != "rock") {
-  //         item.inRadius = () => {
-  //           game.ctx.beginPath()
-  //           game.ctx.arc(
-  //             (2 * item.x + item.width) / 2,
-  //             (2 * item.y + item.height) / 2,
-  //             item.range,
-  //             0,
-  //             2 * Math.PI
-  //           )
 
-  //           enemies.forEach((enemy) => {
-  //             if (
-  //               game.ctx.isPointInPath(enemy.x, enemy.y) ||
-  //               game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
-  //               game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
-  //               game.ctx.isPointInPath(
-  //                 enemy.x + enemy.width,
-  //                 enemy.y + enemy.height
-  //               )
-  //             ) {
-  //               if (!targets.includes(enemy)) {
-  //                 targets.push(enemy)
-  //               }
-  //               let newBullet = attack(item, targets[0])
-  //               if (newBullet) {
-  //                 game.hit = () => {
-  //                   if (!newBullet.hit) {
-  //                     if (haveCollision(newBullet, enemy)) {
-  //                       game.stage.delete(newBullet)
-  //                       newBullet.hit = true
-  //                       enemy.hp -= item.damage
-  //                       console.log(enemy.hp)
-  //                       newBullet.speedX = 0
-  //                       newBullet.speedY = 0
-  //                       if (enemy.hp <= 0) {
-  //                         deleteEnemy(enemy)
-  //                         // game.hit = () => {}
-  //                       }
-  //                     }
-  //                   }
-  //                 }
-  //               }
-  //             } else {
-  //               if (targets.includes(enemy))
-  //                 targets.splice(targets.indexOf(enemy), 1)
-  //             }
-  //           })
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  const fireBullet = () => {
+    for (const items in maze) {
+      if (Object.hasOwnProperty.call(maze, items)) {
+        const item = maze[items]
+        if (item.type != "rock") {
+          item.inRadius = () => {
+            game.ctx.beginPath()
+            game.ctx.arc(
+              (2 * item.x + item.width) / 2,
+              (2 * item.y + item.height) / 2,
+              item.range,
+              0,
+              2 * Math.PI
+            )
 
-  // function attack(tower, enemy) {
-  //   if (tower.fireStatus) {
-  //     const newBullet = new Bullet({
-  //       image: images,
-  //       frame: {
-  //         x: atlas.bullet.x,
-  //         y: atlas.bullet.y,
-  //         width: scale,
-  //         height: scale,
-  //       },
-  //       x: tower.x,
-  //       y: tower.y,
-  //       width: scale,
-  //       height: scale,
-  //       speedX:
-  //         ((enemy.x - tower.x) /
-  //           (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-  //         8,
-  //       speedY:
-  //         ((enemy.y - tower.y) /
-  //           (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
-  //         8,
-  //       tower: tower,
-  //     })
-  //     game.stage.add(newBullet)
-  //     return newBullet
-  //   }
-  // }
+            enemies.forEach(enemy => {
+              if (
+                game.ctx.isPointInPath(enemy.x, enemy.y) ||
+                game.ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
+                game.ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
+                game.ctx.isPointInPath(
+                  enemy.x + enemy.width,
+                  enemy.y + enemy.height
+                )
+              ) {
+                if (!targets.includes(enemy)) {
+                  targets.push(enemy)
+                }
+                if (item.fireStatus) { let newBullet = attack(item, targets[0]) }
+                if (newBullet) {
+                  game.hit = () => {
+                    if (!newBullet.hit) {
+                      if (haveCollision(newBullet, enemy)) {
+                        game.stage.delete(newBullet)
+                        newBullet.hit = true
+                        enemy.hp -= item.damage
+                        console.log(enemy.hp)
+                        newBullet.speedX = 0
+                        newBullet.speedY = 0
+                        if (enemy.hp <= 0) {
+                          deleteEnemy(enemy)
+                          targets.splice(targets.indexOf(enemy), 1)
+                          // game.hit = () => {}
+                        }
+                      }
+                    }
+                  }
+                }
+              } else {
+                if (targets.includes(enemy)) {
+                  targets.splice(targets.indexOf(enemy), 1)
+                  console.log('targets: ', targets);
+                }
 
-  function deleteEnemy(enemy) {
+              }
+            })
+          }
+        }
+      }
+    }
+  }
+
+  const attack = (tower, enemy) => {
+    // if (tower.fireStatus) {
+    const newBullet = new Bullet({
+      image: images,
+      frame: {
+        x: atlas.bullet.x,
+        y: atlas.bullet.y,
+        width: scale,
+        height: scale,
+      },
+      x: tower.x,
+      y: tower.y,
+      width: scale,
+      height: scale,
+      speedX:
+        ((enemy.x - tower.x) /
+          (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+        10,
+      speedY:
+        ((enemy.y - tower.y) /
+          (Math.abs(enemy.x - tower.x) + Math.abs(enemy.y - tower.y))) *
+        10
+    })
+
+
+    // game.stage.add(newBullet)
+    return newBullet
+    // }
+  }
+
+  const deleteEnemy = enemy => {
     enemies.splice(enemies.indexOf(enemy), 1)
     game.stage.delete(enemy)
     console.log(enemies)
@@ -597,11 +618,11 @@ export default async function main() {
     }
   }
 
-  const removePhase = function () {
+  const removePhase = () => {
     game.canvas.addEventListener("click", removeRock)
   }
 
-  const removeRock = function (e) {
+  const removeRock = e => {
     const pos = getPostion(e)
     for (const items in maze) {
       if (Object.hasOwnProperty.call(maze, items)) {

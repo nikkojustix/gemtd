@@ -60,8 +60,8 @@ export default class Game {
     this.hit()
     this.stage.update(delta)
 
-    this.stage.inRadius()
-    this.stage.attack()
+    // this.stage.inRadius()
+    // this.stage.attack()
 
     this.clearCanvas()
     this.drawBackground()
