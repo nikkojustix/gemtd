@@ -12,6 +12,7 @@ export default async function main() {
   const images = await loadImage("images/spritesheet.svg")
   const scale = atlas.board.size
   const maze = new Array()
+  const towers = new Array()
   const enemies = new Array()
   let roundLevel = 1
   const container = document.querySelector(".container")
@@ -300,6 +301,9 @@ export default async function main() {
           gem.rank = ""
           gem.set(atlas.rock)
         }
+        else {
+          towers.push(gem)
+        }
       }
     }
 
@@ -370,7 +374,6 @@ export default async function main() {
     if (enemyNumber === numberOfEnemies) {
       enemyNumber = 0
       clearTimeout(id)
-      console.log(enemies)
       return
     }
   }
@@ -481,38 +484,35 @@ export default async function main() {
         }
       })
 
-      maze.forEach((item) => {
-        if (item.type != "rock") {
-          enemies.forEach(enemy => {
-            if (item.inRadius(game.ctx, enemy)) {
-              if (!targets.includes(enemy)) {
-                targets.push(enemy)
-              }
-              let newBullet = attack(item, targets[0])
-              if (item.fireStatus) {
-                game.stage.add(newBullet)
-              }
-              if (haveCollision(newBullet, enemy)) {
-                console.log('collision');
-                game.stage.delete(newBullet)
-                newBullet = null
-                enemy.hp -= item.damage
-                console.log(enemy.hp)
-                // newBullet.speedX = 0
-                // newBullet.speedY = 0
-                if (enemy.hp <= 0) {
-                  deleteEnemy(enemy)
-                  targets.splice(targets.indexOf(enemy), 1)
-                  // game.hit = () => {}
-                }
-              }
+      towers.forEach((item) => {
+        enemies.forEach(enemy => {
+          if (item.inRadius(game.ctx, enemy)) {
+            if (!targets.includes(enemy)) {
+              targets.push(enemy)
             }
-          });
-        }
+            const newBullet = attack(item, targets[0])
+            if (item.fireStatus) {
+              game.stage.add(newBullet)
+            }
+            if (haveCollision(newBullet, enemy)) {
+              console.log('collision');
+              // game.stage.delete(newBullet)
+              // newBullet = null
+              // enemy.hp -= item.damage
+              // console.log(enemy.hp)
+              // newBullet.speedX = 0
+              // newBullet.speedY = 0
+              // if (enemy.hp <= 0) {
+              //   deleteEnemy(enemy)
+              //   targets.splice(targets.indexOf(enemy), 1)
+              //   // game.hit = () => {}
+              // }
+            }
+          }
+        });
+
       })
-
     }
-
   }
 
 
