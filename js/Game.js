@@ -27,28 +27,7 @@ export default class Game {
   }
 
   drawBackground() {
-    this.ctx.beginPath()
-    this.ctx.rect(0, 0, this.canvas.width, this.canvas.height)
-    this.ctx.fillStyle = this.background
-    this.ctx.fill()
-  }
-
-  drawBoard() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        this.ctx.beginPath()
-        this.ctx.rect(
-          this.squareSize * i,
-          this.squareSize * j,
-          this.squareSize,
-          this.squareSize
-        )
-        this.ctx.lineWidth = 2
-        this.ctx.strokeStyle = "hsl(0, 0%, 40%, 1)"
-        this.ctx.stroke()
-        this.ctx.closePath()
-      }
-    }
+    this.ctx.drawImage(this.background, 0, 0)
   }
 
   render(timestamp) {
@@ -65,7 +44,6 @@ export default class Game {
 
     this.clearCanvas()
     this.drawBackground()
-    this.drawBoard()
 
     this.stage.draw(this.ctx)
   }

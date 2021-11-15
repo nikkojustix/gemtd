@@ -10,6 +10,7 @@ import { haveCollision } from "./Additional.js"
 export default async function main() {
   const atlas = await loadJSON("/json/atlas.json")
   const images = await loadImage("images/spritesheet.svg")
+  const map = await loadImage('images/map.png')
   const scale = atlas.board.size
   const maze = new Array()
   const towers = new Array()
@@ -39,48 +40,48 @@ export default async function main() {
     rows: atlas.board.rows,
     cols: atlas.board.cols,
     squareSize: scale,
-    background: "#ddd",
+    background: map,
   })
   container.insertBefore(game.canvas, container.firstChild)
 
   const grid = new PF.Grid(game.rows, game.cols)
   const finder = new PF.BiAStarFinder()
 
-  zones.forEach((point) => {
-    game.stage.add(
-      new DisplayObject({
-        x: point.x * scale,
-        y: point.y * scale,
-        width: point.width * scale,
-        height: point.height * scale,
-        fillStyle: "hsl(0, 100%, 50%, 0.5)",
-      })
-    )
-  })
+  // zones.forEach((point) => {
+  //   game.stage.add(
+  //     new DisplayObject({
+  //       x: point.x * scale,
+  //       y: point.y * scale,
+  //       width: point.width * scale,
+  //       height: point.height * scale,
+  //       fillStyle: "hsl(0, 100%, 50%, 0.5)",
+  //     })
+  //   )
+  // })
 
-  roads.forEach((road) => {
-    game.stage.add(
-      new DisplayObject({
-        x: road.x * scale,
-        y: road.y * scale,
-        width: road.width * scale,
-        height: road.height * scale,
-        fillStyle: "hsl(60, 60%, 60%, 0.3)",
-      })
-    )
-  })
+  // roads.forEach((road) => {
+  //   game.stage.add(
+  //     new DisplayObject({
+  //       x: road.x * scale,
+  //       y: road.y * scale,
+  //       width: road.width * scale,
+  //       height: road.height * scale,
+  //       fillStyle: "hsl(60, 60%, 60%, 0.3)",
+  //     })
+  //   )
+  // })
 
-  waypoints.forEach((point) => {
-    game.stage.add(
-      new DisplayObject({
-        x: point.x * scale,
-        y: point.y * scale,
-        width: point.width * scale,
-        height: point.height * scale,
-        fillStyle: "hsl(0, 90%, 60%, 1)",
-      })
-    )
-  })
+  // waypoints.forEach((point) => {
+  //   game.stage.add(
+  //     new DisplayObject({
+  //       x: point.x * scale,
+  //       y: point.y * scale,
+  //       width: point.width * scale,
+  //       height: point.height * scale,
+  //       fillStyle: "hsl(0, 90%, 60%, 1)",
+  //     })
+  //   )
+  // })
 
   const buildBtn = document.querySelector(".build")
   const removeBtn = document.querySelector(".remove")
